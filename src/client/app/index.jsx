@@ -7,7 +7,7 @@ function newTitle(text, sub) {
 }
 
 function App() {
-	return newTitle('This is a title', 'This is a shorter title');
+	return newTitle('This is the title', 'This is a shorter title');
 }
 
 render(<App/>, document.getElementById('app'));
