@@ -7,7 +7,7 @@ function newTitle(text, sub) {
 }
 
 function App() {
-	return newTitle('This works without classes', 'More Elements');
+	return newTitle('This is a title', 'This is a smaller title');
 }
 
 render(<App/>, document.getElementById('app'));
