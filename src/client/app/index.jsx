@@ -1,13 +1,18 @@
 import React from 'react';
 import {render} from 'react-dom';
-import title from './components/title';
+import form from './components/form';
 
-function newTitle(text, sub) {
-	return title(text, sub);
+let newUser = true;
+let formTitle;
+
+if(newUser){
+	formTitle = "Sign Up"
+} else {
+	formTitle = "Sign In"
 }
 
 function App() {
-	return newTitle('This is the title', 'This is a shorter title');
+	return form(formTitle);
 }
 
-render(<App/>, document.getElementById('app'));
+render(<App/>, document.getElementById("app"));
