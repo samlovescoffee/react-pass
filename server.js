@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 let User = require('./model/users');
+let users = mongoose.model('User','users');
 
 const app = express();
 const router = express.Router();
@@ -39,27 +40,29 @@ app.listen(port, function() {
 });
 
 router.route('/users')
-//retrieve all users from the database
-.get(function(req, res) {
-	//looks at our User Schema
-	User.find(function(err, users) {
-		if (err)
-			res.send(err);
-		//responds with a json object of our database users.
-		res.json(users)
-	});
-})
 //post user
 .post(function(req, res) {
-	let user = new User();
-	//body parser lets us use the req.body
-	user.Email = req.body.email;
-	user.Password = req.body.password;
 
-	user.save(function(err) {
-		if (err) {
-			res.send(err);
+	users.find({'Email': req.body.email}, function(err, data) {
+		if(err) {
+			console.log(err);
+			return;
 		}
-		res.send('Data Submitted');
+		if(data.length === 0) {
+			let user = new User();
+			//body parser lets us use the req.body
+			user.Email = req.body.email;
+			user.Password = req.body.password.toString();
+
+			user.save(function(err) {
+				if (err) {
+					res.send(err);
+				}
+				res.send('Submitted');
+			});
+		} else {
+			console.log('User already exists');
+		}
+
 	});
 });

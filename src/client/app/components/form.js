@@ -25,10 +25,17 @@ function handleSubmit(e) {
 		data[inputs[i].getAttribute('name')] = inputs[i].value;
 	}
 
+	try {
+		data.password = encrypt(data.password);
+	} catch (err) {
+		console.log("Error encrypting, not submitted");
+		throw err;
+	}
+
 	axios.post('http://localhost:3001/api/users', querystring.stringify(data),
 	{headers: {"Content-Type": "application/x-www-form-urlencoded"}},)
 		.then(function (response) {
-			console.log('woo ', response);
+			console.log(response);
 		})
 		.catch(function (error) {
 			console.log('whopper ', error);
