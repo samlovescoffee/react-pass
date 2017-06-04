@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -13,6 +13,18 @@ const port = process.env.API_PORT || 3001;
 //JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//To prevent errors from Cross Origin Resource Sharing, we will set 
+//our headers to allow CORS with middleware like so:
+app.use(function(req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Credentials', 'true');
+	res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
+	res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+//and remove caching so we get the most recent users
+	res.setHeader('Cache-Control', 'no-cache');
+	next();
+});
 
 mongoose.connect('mongodb://localhost/react-pass');
 
@@ -37,15 +49,17 @@ router.route('/users')
 		res.json(users)
 	});
 })
-//post new user to the database
+//post user
 .post(function(req, res) {
 	let user = new User();
 	//body parser lets us use the req.body
-	user.Email = req.body.Email;
-	user.Password = req.body.Password;
+	user.Email = req.body.email;
+	user.Password = req.body.password;
+
 	user.save(function(err) {
-		if (err)
+		if (err) {
 			res.send(err);
-		res.json({ message: 'User successfully added!' });
+		}
+		res.send('Data Submitted');
 	});
 });
