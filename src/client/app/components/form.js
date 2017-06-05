@@ -3,6 +3,7 @@ import Input from './input';
 import axios from 'axios';
 
 let querystring = require('querystring');
+let passwordHash = require('password-hash');
 
 let formStyle = {
 	padding: 50,
@@ -23,13 +24,6 @@ function handleSubmit(e) {
 
 	for(let i = 0; i < inputs.length; i++){
 		data[inputs[i].getAttribute('name')] = inputs[i].value;
-	}
-
-	try {
-		data.password = encrypt(data.password);
-	} catch (err) {
-		console.log("Error encrypting, not submitted");
-		throw err;
 	}
 
 	axios.post('http://localhost:3001/api/users', querystring.stringify(data),

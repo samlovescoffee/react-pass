@@ -3,6 +3,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+let passwordHash = require('password-hash');
 let User = require('./model/users');
 let users = mongoose.model('User','users');
 
@@ -52,7 +53,7 @@ router.route('/users')
 			let user = new User();
 			//body parser lets us use the req.body
 			user.Email = req.body.email;
-			user.Password = req.body.password.toString();
+			user.Password = passwordHash.generate(req.body.password);
 
 			user.save(function(err) {
 				if (err) {
@@ -62,6 +63,15 @@ router.route('/users')
 			});
 		} else {
 			console.log('User already exists');
+
+			let submitted = req.body.password;
+			let stored = data[0].Password;
+
+			if(passwordHash.verify(submitted, stored)) {
+				console.log('true'); //send them to account
+			} else {
+				console.log('false'); //alert to false password or existing user
+			}
 		}
 
 	});
