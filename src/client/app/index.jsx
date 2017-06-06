@@ -1,18 +1,19 @@
 import React from 'react';
 import {render} from 'react-dom';
-import form from './components/form';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import Nav from './components/nav'
+import LargeLogin from './components/largeLogin';
+import Account from './routes/account';
 
-let newUser = true;
-let formTitle;
 
-if(newUser){
-	formTitle = "Sign Up"
-} else {
-	formTitle = "Sign In"
-}
 
-function App() {
-	return form(formTitle);
-}
 
-render(<App/>, document.getElementById("app"));
+render(
+	<Router component={Nav}>
+		<div>
+			<Route path="/" component={LargeLogin}/>
+			<Route path="/account" component={Account}/>
+		</div>
+	</Router>,
+	document.getElementById('App')
+);

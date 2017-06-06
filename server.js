@@ -68,9 +68,9 @@ router.route('/users')
 			let stored = data[0].Password;
 
 			if(passwordHash.verify(submitted, stored)) {
-				console.log('true'); //send them to account
+				console.log('password correct'); //send them to account
 			} else {
-				console.log('false'); //alert to false password or existing user
+				console.log('password false'); //alert to false password or existing user
 			}
 		}
 

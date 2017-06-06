@@ -37,7 +37,7 @@ function handleSubmit(e) {
 }
 
 
-export const form = (text) => (
+export const Form = (text) => (
 	<form id="access" style={formStyle} onSubmit={ handleSubmit }>
 		<legend><h1>{text}</h1></legend>
 
@@ -48,4 +48,4 @@ export const form = (text) => (
 	</form>
 );
 
-export default form
+export default Form
