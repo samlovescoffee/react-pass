@@ -1,9 +1,9 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-import Nav from './components/nav'
-import LargeLogin from './components/largeLogin';
-import Account from './routes/account';
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+import Nav from './client/app/components/nav'
+import LargeLogin from './client/app/components/largeLogin';
+import Account from './client/app/routes/account';
 
 
 

@@ -3,7 +3,6 @@ import Input from './input';
 import axios from 'axios';
 
 let querystring = require('querystring');
-let passwordHash = require('password-hash');
 
 let formStyle = {
 	padding: 50,
