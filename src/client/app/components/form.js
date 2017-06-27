@@ -3,7 +3,6 @@ import Input from './input';
 import axios from 'axios';
 
 let querystring = require('querystring');
-let passwordHash = require('password-hash');
 
 let formStyle = {
 	padding: 50,
@@ -37,7 +36,7 @@ function handleSubmit(e) {
 }
 
 
-export const form = (text) => (
+export const Form = (text) => (
 	<form id="access" style={formStyle} onSubmit={ handleSubmit }>
 		<legend><h1>{text}</h1></legend>
 
@@ -48,4 +47,4 @@ export const form = (text) => (
 	</form>
 );
 
-export default form
+export default Form

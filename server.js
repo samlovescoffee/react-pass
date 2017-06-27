@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 let passwordHash = require('password-hash');
 let User = require('./model/users');
+let AuditLog = require('./model/logs');
 let users = mongoose.model('User','users');
 
 const app = express();
@@ -40,6 +41,20 @@ app.listen(port, function() {
 	console.log('api running on port ', port);
 });
 
+function dbLog(email, message) {
+	let log = new AuditLog();
+	log.Email = email;
+	log.Message = message;
+	log.Date = new Date();
+
+	log.save(function(err) {
+		if (err) {
+			res.send(err);
+		}
+	});
+}
+
+
 router.route('/users')
 //post user
 .post(function(req, res) {
@@ -54,23 +69,29 @@ router.route('/users')
 			//body parser lets us use the req.body
 			user.Email = req.body.email;
 			user.Password = passwordHash.generate(req.body.password);
+			user.CreatedDate = new Date();
 
 			user.save(function(err) {
 				if (err) {
 					res.send(err);
+				} else {
+					let message = 'New user created';
+					dbLog(user.Email, message);
 				}
 				res.send('Submitted');
 			});
 		} else {
-			console.log('User already exists');
-
 			let submitted = req.body.password;
 			let stored = data[0].Password;
 
 			if(passwordHash.verify(submitted, stored)) {
-				console.log('true'); //send them to account
+				let message = 'Successful log in request';
+				let user = req.body.email;
+				dbLog(user, message);
 			} else {
-				console.log('false'); //alert to false password or existing user
+				let message = 'Unsuccessful log in';
+				let user = req.body.email;
+				dbLog(user, message);
 			}
 		}
 
