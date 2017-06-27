@@ -1,9 +1,9 @@
 import Form from './form';
 
-let newUser = true;
+let currentUser = localStorage.getItem("LoggedIn");
 let formTitle;
 
-if(newUser){
+if (!currentUser) {
 	formTitle = "Sign Up"
 } else {
 	formTitle = "Sign In"

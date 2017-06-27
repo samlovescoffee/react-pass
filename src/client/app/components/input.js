@@ -2,12 +2,13 @@ import React from 'react';
 
 let spanStyle = {
 	display: 'block',
-	marginBottom: '5px'
+	marginBottom: '5px',
+	fontSize: '15px'
 };
 
 let inputStyle = {
 	width: '100%',
-	marginBottom: '5px',
+	marginBottom: '10px',
 	fontSize: 20,
 	padding: 5
 };

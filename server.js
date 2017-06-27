@@ -78,7 +78,7 @@ router.route('/users')
 					let message = 'New user created';
 					dbLog(user.Email, message);
 				}
-				res.send('Submitted');
+				res.send(true);
 			});
 		} else {
 			let submitted = req.body.password;
@@ -88,10 +88,12 @@ router.route('/users')
 				let message = 'Successful log in request';
 				let user = req.body.email;
 				dbLog(user, message);
+				res.send(true);
 			} else {
 				let message = 'Unsuccessful log in';
 				let user = req.body.email;
 				dbLog(user, message);
+				res.send(false);
 			}
 		}
 
