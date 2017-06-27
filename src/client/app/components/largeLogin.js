@@ -3,7 +3,7 @@ import Form from './form';
 let currentUser = localStorage.getItem("LoggedIn");
 let formTitle;
 
-if (!currentUser) {
+if (currentUser !== 'true') {
 	formTitle = "Sign Up"
 } else {
 	formTitle = "Sign In"
