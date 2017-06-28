@@ -73,14 +73,13 @@ router.route('/users')
 .post(function(req, res) {
 
 	users.find({'Email': req.body.email}, function(err, data) {
-		if(err) {
+		if (err) {
 			dbError(err);
 			return;
 		}
 
-		if(data.length === 0) {
+		if (data.length === 0) {
 			let user = new User();
-			//body parser lets us use the req.body
 			user.Email = req.body.email;
 			user.Password = passwordHash.generate(req.body.password);
 			user.CreatedDate = new Date();
@@ -93,12 +92,10 @@ router.route('/users')
 				}
 			});
 
+		} else if (passwordHash.verify(req.body.password, data[0].Password)) {
+			dbLog(req.body.email, 'Successful log in request');
 		} else {
-			if(passwordHash.verify(req.body.password, data[0].Password)) {
-				dbLog(req.body.email, 'Successful log in request');
-			} else {
-				dbLog(req.body.email, 'Unsuccessful log in');
-			}
+			dbLog(req.body.email, 'Unsuccessful log in');
 		}
 
 	});
