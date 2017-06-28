@@ -85,15 +85,12 @@ router.route('/users')
 			user.Password = passwordHash.generate(req.body.password);
 			user.CreatedDate = new Date();
 
-			let err = 'test';
 			user.save(function(err) {
 				if (err) {
 					dbError(err);
 				} else {
-					let message = 'New user created';
-					dbLog(user.Email, message);
+					dbLog(user.Email, 'New user created');
 				}
-				res.send(true);
 			});
 
 		} else {
@@ -101,16 +98,10 @@ router.route('/users')
 			let stored = data[0].Password;
 
 			if(passwordHash.verify(submitted, stored)) {
-				let message = 'Successful log in request';
-				let user = req.body.email;
-				dbLog(user, message);
-				res.send(true);
+				dbLog(req.body.email, 'Successful log in request');
 
 			} else {
-				let message = 'Unsuccessful log in';
-				let user = req.body.email;
-				dbLog(user, message);
-				res.send(false);
+				dbLog(req.body.email, 'Unsuccessful log in');
 			}
 		}
 
