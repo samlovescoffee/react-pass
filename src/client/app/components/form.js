@@ -21,7 +21,7 @@ function handleSubmit(e) {
 
 	let inputs = document.getElementsByTagName('INPUT');
 
-	for(let i = 0; i < inputs.length; i++){
+	for (let i = 0; i < inputs.length; i++){
 		data[inputs[i].getAttribute('name')] = inputs[i].value;
 	}
 

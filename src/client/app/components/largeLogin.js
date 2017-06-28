@@ -1,13 +1,6 @@
 import Form from './form';
 
-let currentUser = localStorage.getItem("LoggedIn");
-let formTitle;
-
-if (currentUser !== 'true') {
-	formTitle = "Sign Up"
-} else {
-	formTitle = "Sign In"
-}
+let formTitle = 'Sign In';
 
 function LargeLogin() {
 	return Form(formTitle);

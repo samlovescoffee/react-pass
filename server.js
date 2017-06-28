@@ -97,6 +97,5 @@ router.route('/users')
 		} else {
 			dbLog(req.body.email, 'Unsuccessful log in');
 		}
-
 	});
 });
