@@ -10,8 +10,18 @@ body {
 button {
 	padding: 10px 30px;
 	background: #0892D0;
-	border: 0;
+	border: solid 3px #0892D0;
 	color: white;
 	font-size: 15px;
 	cursor: pointer;
+	transition: all 0.4s;
+}
+
+button:hover {
+	background: rgba(0, 0, 0, 0);
+	color: #0892D0;
+}
+
+.flaggedInput {
+	border-color: red;
 }

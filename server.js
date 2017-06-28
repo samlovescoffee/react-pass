@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 let passwordHash = require('password-hash');
 let User = require('./model/users');
 let AuditLog = require('./model/logs');
+let Error = require('./model/errors');
 let users = mongoose.model('User','users');
 
 const app = express();
@@ -54,6 +55,18 @@ function dbLog(email, message) {
 	});
 }
 
+function dbError(err) {
+	let log = new Error();
+	log.Error = err;
+	log.Date = new Date();
+
+	log.save(function(err) {
+		if (err) {
+			res.send(err);
+		}
+	});
+}
+
 
 router.route('/users')
 //post user
@@ -61,9 +74,10 @@ router.route('/users')
 
 	users.find({'Email': req.body.email}, function(err, data) {
 		if(err) {
-			console.log(err);
+			dbError(err);
 			return;
 		}
+
 		if(data.length === 0) {
 			let user = new User();
 			//body parser lets us use the req.body
@@ -71,15 +85,17 @@ router.route('/users')
 			user.Password = passwordHash.generate(req.body.password);
 			user.CreatedDate = new Date();
 
+			let err = 'test';
 			user.save(function(err) {
 				if (err) {
-					res.send(err);
+					dbError(err);
 				} else {
 					let message = 'New user created';
 					dbLog(user.Email, message);
 				}
 				res.send(true);
 			});
+
 		} else {
 			let submitted = req.body.password;
 			let stored = data[0].Password;
@@ -89,6 +105,7 @@ router.route('/users')
 				let user = req.body.email;
 				dbLog(user, message);
 				res.send(true);
+
 			} else {
 				let message = 'Unsuccessful log in';
 				let user = req.body.email;

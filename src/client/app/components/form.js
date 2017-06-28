@@ -57,7 +57,7 @@ function handleSubmit(e) {
 export const Form = (text) => (
 	<form id="access" style={formStyle} onSubmit={ handleSubmit }>
 		<legend><h1>{text}</h1></legend>
-
+		<p>123QWEqwe@</p>
 		<Input id="email" name={'email'} type={'email'} text="Email"/>
 		<Input id="password" name={'password'} type={'password'} text="Password"/>
 
