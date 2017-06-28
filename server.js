@@ -94,12 +94,8 @@ router.route('/users')
 			});
 
 		} else {
-			let submitted = req.body.password;
-			let stored = data[0].Password;
-
-			if(passwordHash.verify(submitted, stored)) {
+			if(passwordHash.verify(req.body.password, data[0].Password)) {
 				dbLog(req.body.email, 'Successful log in request');
-
 			} else {
 				dbLog(req.body.email, 'Unsuccessful log in');
 			}
