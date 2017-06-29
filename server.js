@@ -5,8 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 let passwordHash = require('password-hash');
 let User = require('./model/users');
-let AuditLog = require('./model/logs');
-let Error = require('./model/errors');
+let Log = require('./controllers/logs');
 let users = mongoose.model('User','users');
 
 const app = express();
@@ -42,31 +41,20 @@ app.listen(port, function() {
 	console.log('api running on port ', port);
 });
 
-function dbLog(email, message) {
-	let log = new AuditLog();
-	log.Email = email;
-	log.Message = message;
-	log.Date = new Date();
+function createNewUser(req) {
+	let user = new User();
+	user.Email = req.body.email;
+	user.Password = passwordHash.generate(req.body.password);
+	user.CreatedDate = new Date();
 
-	log.save(function(err) {
+	user.save(function(err) {
 		if (err) {
-			res.send(err);
+			Log.error(err);
+		} else {
+			Log.audit(user.Email, 'New user created');
 		}
 	});
 }
-
-function dbError(err) {
-	let log = new Error();
-	log.Error = err;
-	log.Date = new Date();
-
-	log.save(function(err) {
-		if (err) {
-			res.send(err);
-		}
-	});
-}
-
 
 router.route('/users')
 //post user
@@ -74,28 +62,16 @@ router.route('/users')
 
 	users.find({'Email': req.body.email}, function(err, data) {
 		if (err) {
-			dbError(err);
-			return;
-		}
+			Log.error(err);
 
-		if (data.length === 0) {
-			let user = new User();
-			user.Email = req.body.email;
-			user.Password = passwordHash.generate(req.body.password);
-			user.CreatedDate = new Date();
-
-			user.save(function(err) {
-				if (err) {
-					dbError(err);
-				} else {
-					dbLog(user.Email, 'New user created');
-				}
-			});
+		} else if (data.length === 0) {
+			createNewUser(req);
 
 		} else if (passwordHash.verify(req.body.password, data[0].Password)) {
-			dbLog(req.body.email, 'Successful log in request');
+			Log.audit(req.body.email, 'Successful log in request');
+
 		} else {
-			dbLog(req.body.email, 'Unsuccessful log in');
+			Log.audit(req.body.email, 'Unsuccessful log in');
 		}
 	});
 });
