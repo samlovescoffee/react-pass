@@ -3,6 +3,7 @@ import Input from './input';
 import axios from 'axios';
 
 let querystring = require('querystring');
+let Cookie = require('../controllers/cookies');
 
 let formStyle = {
 	padding: 50,
@@ -40,7 +41,7 @@ function handleSubmit(e) {
 		axios.post('http://localhost:3001/api/users', querystring.stringify(data),
 			{headers: {"Content-Type": "application/x-www-form-urlencoded"}},)
 			.then(function(res) {
-					localStorage.setItem("LoggedIn", res.data);
+				Cookie.write('JWT', res.data, 2);
 			})
 			.catch(function (error) {
 				console.log('whopper ', error);

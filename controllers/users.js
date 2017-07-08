@@ -9,6 +9,12 @@ const user = {
 				user.Password = passwordHash.generate(req.body.password);
 				user.CreatedDate = new Date();
 
+				if (user.Email === 'sam@intravenous.coffee' || user.Email === 'elise_t92@hotmail.com') {
+					user.Access = 'Admin';
+				} else {
+					user.Access = 'User';
+				}
+
 				user.save(function(err) {
 					if (err) {
 						Log.error(err);

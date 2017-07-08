@@ -7,7 +7,8 @@ const Schema = mongoose.Schema;
 let UsersSchema = mongoose.model('User', new Schema({
 	Email: String,
 	Password: String,
-	CreatedDate: Date
+	CreatedDate: Date,
+	Access: String
 }));
 //export our module to use in server.js
 module.exports = UsersSchema;
