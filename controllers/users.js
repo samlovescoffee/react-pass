@@ -1,3 +1,4 @@
+'use strict';
 let User = require('../model/users');
 let passwordHash = require('password-hash');
 let Log = require('./logs');

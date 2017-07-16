@@ -31,5 +31,18 @@
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samlovescoffee/react-pass.git"
+  },
+  "keywords": [
+    "vue.js",
+    "node.js",
+    "mongodb"
+  ],
+  "bugs": {
+    "url": "https://github.com/samlovescoffee/react-pass/issues"
+  },
+  "homepage": "https://github.com/samlovescoffee/react-pass#readme"
 }
